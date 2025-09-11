@@ -50,10 +50,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieBanner />
         <script
           type="application/ld+json"
-          // @ts-expect-error inline JSON LD
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </body>
     </html>
   );
 }
+
