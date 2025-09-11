@@ -1,14 +1,26 @@
 'use client';
+
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Page() {
   return (
     <main id="inicio">
-      {/* HERO */}
+      {/* HERO con next/image */}
       <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[url('/images/hero-cocina-01.jpg')] bg-cover bg-center" />
-        <div className="absolute inset-0 -z-10 bg-black/45" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 lg:py-36 text-white">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="/images/hero-cocina-01.jpg"
+            alt="Cocina con isla en madera y encimera clara — Girona"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/55" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 lg:py-36 text-white">
           <h1 className="max-w-3xl text-4xl font-semibold sm:text-5xl">
             Diseñamos y reformamos <span className="text-wood-light">cocinas y baños</span> a medida en Girona y Costa Brava
           </h1>
@@ -44,7 +56,18 @@ export default function Page() {
                 Quiero un render 3D
               </a>
             </div>
-            <img src="/images/galeria-01.jpg" className="rounded-xl w-full object-cover" alt="Cocina isla madera — Girona" />
+
+            <div className="relative rounded-xl w-full overflow-hidden">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src="/images/galeria-01.jpg"
+                  alt="Cocina con isla en madera — Girona"
+                  fill
+                  sizes="(min-width:1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -53,7 +76,18 @@ export default function Page() {
       <section id="banos" className="bg-fog py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-            <img src="/images/galeria-02.jpg" className="rounded-xl w-full object-cover" alt="Baño moderno — Girona" />
+            <div className="relative rounded-xl w-full overflow-hidden">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src="/images/galeria-02.jpg"
+                  alt="Baño moderno con encimera clara — Girona"
+                  fill
+                  sizes="(min-width:1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
             <div>
               <h2 className="text-2xl font-semibold">Reformas de baños</h2>
               <p className="mt-3 text-slate-700">
@@ -157,14 +191,22 @@ export default function Page() {
 
       {/* CTA FINAL */}
       <section id="cta" className="relative overflow-hidden bg-gradient-to-br from-sea to-coal py-16 text-white">
-        <div className="absolute inset-0 mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(255,255,255,.1), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,255,255,.1), transparent 40%)' }} />
+        <div
+          className="absolute inset-0 mix-blend-overlay"
+          style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(255,255,255,.1), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,255,255,.1), transparent 40%)' }}
+        />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
               <h2 className="text-3xl font-semibold">Recibe tu presupuesto + render sin compromiso en 48h</h2>
               <p className="mt-3 text-white/90">Déjanos tus datos y te contactamos hoy mismo.</p>
               <div className="mt-6">
-                <a href="https://wa.me/34611637679?text=Hola%20CUIBA%2C%20quiero%20un%20presupuesto%20y%20render%203D" target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 font-medium text-sea hover:opacity-90">
+                <a
+                  href="https://wa.me/34611637679?text=Hola%20CUIBA%2C%20quiero%20un%20presupuesto%20y%20render%203D"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 font-medium text-sea hover:opacity-90"
+                >
                   WhatsApp directo
                 </a>
               </div>
@@ -177,6 +219,9 @@ export default function Page() {
   );
 }
 
+/* =======================
+   GALERÍA con next/image
+   ======================= */
 function Gallery() {
   const items = [
     ['/images/galeria-01.jpg', 'Cocina moderna 10 m² – Girona'],
@@ -186,7 +231,9 @@ function Gallery() {
     ['/images/galeria-06.jpg', 'Encimera piedra natural — Lloret'],
     ['/images/galeria-07.jpg', 'Montaje en curso — Girona'],
   ] as const;
+
   const [full, setFull] = useState<string | null>(null);
+
   return (
     <section id="galeria" className="bg-fog py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -197,37 +244,69 @@ function Gallery() {
           </div>
           <a href="#" className="text-sea hover:underline">Ver portfolio completo</a>
         </div>
+
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map(([src, label]) => (
-            <button key={src} onClick={() => setFull(src)} className="group relative overflow-hidden rounded-xl bg-white">
-              <img className="aspect-[4/3] w-full object-cover" src={src} alt={label} />
+            <button
+              key={src}
+              onClick={() => setFull(src)}
+              className="group relative overflow-hidden rounded-xl bg-white text-left"
+              aria-label={`Abrir imagen: ${label}`}
+            >
+              <div className="relative aspect-[4/3] w-full">
+                <Image
+                  src={src}
+                  alt={label}
+                  fill
+                  sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="absolute inset-x-0 bottom-0 bg-coal/60 p-3 text-sm text-white">{label}</div>
             </button>
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
       {full && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4" onClick={() => setFull(null)} role="dialog" aria-modal="true">
-          <img src={full} alt="Imagen ampliada" className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl" />
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4"
+          onClick={() => setFull(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="relative w-[90vw] h-[90vh] max-w-[1200px]">
+            <Image src={full} alt="Imagen ampliada" fill sizes="90vw" className="object-contain rounded-xl" />
+          </div>
         </div>
       )}
     </section>
   );
 }
 
+/* =======================
+   FORMULARIO (sin cambios)
+   ======================= */
 function LeadForm() {
   const [ok, setOk] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
-    const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setOk(res.ok);
     setLoading(false);
     if (res.ok) form.reset();
   }
+
   return (
     <form onSubmit={onSubmit} className="rounded-2xl bg-white p-6 text-slate-800 shadow-xl">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -241,7 +320,7 @@ function LeadForm() {
         </div>
         <div>
           <label className="block text-sm font-medium">Teléfono</label>
-          <input required name="telefono" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="611 637 679" />
+          <input required name="telefono" autoComplete="tel" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="611 637 679" />
         </div>
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium">Localidad</label>
@@ -251,6 +330,9 @@ function LeadForm() {
           <label className="block text-sm font-medium">Mensaje</label>
           <textarea name="mensaje" rows={3} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Cuéntanos tu reforma (m², estilo, plazo)" />
         </div>
+        {/* Honeypot anti-spam */}
+        <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+
         <label className="sm:col-span-2 flex items-start gap-2 text-sm text-slate-600">
           <input type="checkbox" required className="mt-1" />
           Acepto la política de privacidad y el tratamiento de datos para responder a mi solicitud.
