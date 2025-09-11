@@ -42,7 +42,11 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     images: ['/og.jpg']
-  }
+  },
+  themeColor: [
+  { media: '(prefers-color-scheme: light)', color: '#007F7F' }, // claro
+  { media: '(prefers-color-scheme: dark)',  color: '#1C1C1C' }  // carbón del header
+  ]
 };
 
 // ————————————————————————————————————————————————————————————————
@@ -116,4 +120,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
 
