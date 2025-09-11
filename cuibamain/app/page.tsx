@@ -3,10 +3,15 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+/**
+ * Página de inicio.
+ * A11Y: aplicamos .focus-ring (fondos claros) y .focus-ring-dark (fondos oscuros)
+ * a enlaces y botones principales para un foco visible consistente.
+ */
 export default function Page() {
   return (
     <main id="inicio">
-      {/* HERO con next/image */}
+      {/* HERO (fondo oscuro) → focus-ring-dark */}
       <section className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
@@ -28,17 +33,17 @@ export default function Page() {
             Render 3D sin compromiso y presupuesto claro en 48h. Materiales premium, instalación llave en mano.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#cta" className="inline-flex items-center rounded-md bg-sea px-6 py-3 font-medium text-white hover:opacity-90">
+            <a href="#cta" className="inline-flex items-center rounded-md bg-sea px-6 py-3 font-medium text-white hover:opacity-90 focus-ring-dark">
               Pide tu presupuesto gratis
             </a>
-            <a href="#galeria" className="inline-flex items-center rounded-md bg-white/10 px-6 py-3 font-medium hover:bg-white/20">
+            <a href="#galeria" className="inline-flex items-center rounded-md bg-white/10 px-6 py-3 font-medium hover:bg-white/20 focus-ring-dark">
               Ver proyectos
             </a>
           </div>
         </div>
       </section>
 
-      {/* COCINAS */}
+      {/* COCINAS (fondo claro) → focus-ring */}
       <section id="cocinas" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2">
@@ -52,7 +57,7 @@ export default function Page() {
                 <li>• Fabricación y montaje propios</li>
                 <li>• Gestión integral de gremios</li>
               </ul>
-              <a href="#cta" className="mt-6 inline-flex rounded-md bg-sea px-5 py-2.5 font-medium text-white">
+              <a href="#cta" className="mt-6 inline-flex rounded-md bg-sea px-5 py-2.5 font-medium text-white focus-ring">
                 Quiero un render 3D
               </a>
             </div>
@@ -72,7 +77,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* BAÑOS */}
+      {/* BAÑOS (fondo claro) → focus-ring */}
       <section id="banos" className="bg-fog py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
@@ -98,13 +103,15 @@ export default function Page() {
                 <li>• Materiales resistentes a la humedad</li>
                 <li>• Garantías por escrito</li>
               </ul>
-              <a href="#cta" className="mt-6 inline-flex rounded-md bg-sea px-5 py-2.5 font-medium text-white">Pide presupuesto</a>
+              <a href="#cta" className="mt-6 inline-flex rounded-md bg-sea px-5 py-2.5 font-medium text-white focus-ring">
+                Pide presupuesto
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SERVICIOS */}
+      {/* SERVICIOS — solo informativo (sin cambios) */}
       <section id="servicios" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Servicios principales</h2>
@@ -129,7 +136,7 @@ export default function Page() {
 
       <Gallery />
 
-      {/* PROCESO */}
+      {/* PROCESO — informativo */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Cómo trabajamos</h2>
@@ -152,7 +159,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* OPINIONES */}
+      {/* OPINIONES — informativo */}
       <section className="bg-fog py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Opiniones</h2>
@@ -172,7 +179,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* DIFERENCIALES */}
+      {/* DIFERENCIALES — informativo */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">¿Por qué CUIBA?</h2>
@@ -189,7 +196,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* CTA FINAL */}
+      {/* CTA FINAL (fondo oscuro) → focus-ring-dark para enlaces, focus-ring para botones dentro del form (fondo blanco) */}
       <section id="cta" className="relative overflow-hidden bg-gradient-to-br from-sea to-coal py-16 text-white">
         <div
           className="absolute inset-0 mix-blend-overlay"
@@ -205,7 +212,7 @@ export default function Page() {
                   href="https://wa.me/34611637679?text=Hola%20CUIBA%2C%20quiero%20un%20presupuesto%20y%20render%203D"
                   target="_blank"
                   rel="noopener"
-                  className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 font-medium text-sea hover:opacity-90"
+                  className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 font-medium text-sea hover:opacity-90 focus-ring-dark"
                 >
                   WhatsApp directo
                 </a>
@@ -242,7 +249,7 @@ function Gallery() {
             <h2 className="text-2xl font-semibold">Proyectos y renders</h2>
             <p className="mt-2 text-slate-600">Selección reciente en Girona y Costa Brava.</p>
           </div>
-          <a href="#" className="text-sea hover:underline">Ver portfolio completo</a>
+          <a href="#" className="text-sea hover:underline rounded-md focus-ring">Ver portfolio completo</a>
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -250,7 +257,7 @@ function Gallery() {
             <button
               key={src}
               onClick={() => setFull(src)}
-              className="group relative overflow-hidden rounded-xl bg-white text-left"
+              className="group relative overflow-hidden rounded-xl bg-white text-left focus-ring"
               aria-label={`Abrir imagen: ${label}`}
             >
               <div className="relative aspect-[4/3] w-full">
@@ -286,7 +293,7 @@ function Gallery() {
 }
 
 /* =======================
-   FORMULARIO (sin cambios)
+   FORMULARIO — añadimos focus-ring a botones dentro del card blanco
    ======================= */
 function LeadForm() {
   const [ok, setOk] = useState<boolean | null>(null);
@@ -338,7 +345,11 @@ function LeadForm() {
           Acepto la política de privacidad y el tratamiento de datos para responder a mi solicitud.
         </label>
         <div className="sm:col-span-2 flex gap-3">
-          <button type="submit" disabled={loading} className="inline-flex items-center rounded-md bg-sea px-5 py-2.5 font-medium text-white hover:opacity-90 disabled:opacity-50">
+          <button
+            type="submit"
+            disabled={loading}
+            className="inline-flex items-center rounded-md bg-sea px-5 py-2.5 font-medium text-white hover:opacity-90 disabled:opacity-50 focus-ring"
+          >
             {loading ? 'Enviando…' : 'Enviar solicitud'}
           </button>
           <button
@@ -351,7 +362,7 @@ function LeadForm() {
               );
               window.open(`https://wa.me/34611637679?text=${text}`, '_blank');
             }}
-            className="inline-flex items-center rounded-md border border-slate-300 px-5 py-2.5"
+            className="inline-flex items-center rounded-md border border-slate-300 px-5 py-2.5 focus-ring"
           >
             Enviar por WhatsApp
           </button>
