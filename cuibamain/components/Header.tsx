@@ -1,10 +1,14 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 
 /**
- * Header sticky con navegación principal.
- * A11Y: añadimos .focus-ring-dark a enlaces/botones sobre fondo oscuro.
+ * Header sticky con navegación.
+ * Cambios pedidos:
+ * - Logo más grande (44–48px).
+ * - Menos separación entre logo y texto (gap-1).
+ * - Menos tracking entre letras del título (tracking-tight).
  */
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -13,10 +17,24 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-coal/95 backdrop-blur border-b border-black/20 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo + marca — foco visible accesible */}
-          <Link href="#inicio" className="flex items-center gap-3 rounded-md focus-ring-dark">
-            <img src="/images/logo-cuiba-light.png" alt="CUIBA Design" className="h-9 w-9 rounded" />
-            <span className="font-semibold tracking-wide">CUIBA DESIGN</span>
+          {/* === LOGO + MARCA ===========================================
+              - gap-1: acerca el logo al texto.
+              - Image width/height 44 (md:48): logo más grande sin romper el header.
+              - tracking-tight + leading-none: letras más “pegadas” entre sí y verticalmente.
+              - uppercase para forzar mayúsculas.
+          ============================================================ */}
+          <Link href="#inicio" className="flex items-center gap-1 rounded-md focus-ring-dark" aria-label="Ir al inicio">
+            <Image
+              src="/images/logo-cuiba-light.png"
+              alt="CUIBA Design"
+              width={44}
+              height={44}
+              className="rounded md:w-12 md:h-12" // md: 48px
+              priority
+            />
+            <span className="text-lg md:text-xl font-semibold uppercase leading-none tracking-tight">
+              CUIBA DESIGN
+            </span>
           </Link>
 
           {/* Menú desktop */}
@@ -59,7 +77,7 @@ export default function Header() {
             </a>
           </div>
 
-          {/* Hamburguesa móvil — foco visible */}
+          {/* Hamburguesa móvil */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden inline-flex items-center justify-center rounded-md p-2 hover:bg-white/10 focus-ring-dark"
@@ -100,4 +118,3 @@ export default function Header() {
     </header>
   );
 }
-
