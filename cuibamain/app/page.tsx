@@ -1,17 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import Image from 'next/image';
+import { LeadSchema, zodErrorToFieldMap } from '@/lib/lead-schema';
 
 /**
- * Página de inicio.
- * A11Y: aplicamos .focus-ring (fondos claros) y .focus-ring-dark (fondos oscuros)
- * a enlaces y botones principales para un foco visible consistente.
+ * Página de inicio:
+ * - HERO y Galería con next/image (rendimiento y LCP).
+ * - Focus ring accesible (.focus-ring / .focus-ring-dark).
+ * - Formulario con validación Zod (cliente) + honeypot + errores por campo.
  */
 export default function Page() {
   return (
     <main id="inicio">
-      {/* HERO (fondo oscuro) → focus-ring-dark */}
+      {/* ===========================
+         HERO (fondo oscuro)
+         - Imagen optimizada (next/image) + overlay para contraste.
+         - Botones con focus-ring-dark (fondo oscuro).
+         =========================== */}
       <section className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
@@ -43,7 +49,11 @@ export default function Page() {
         </div>
       </section>
 
-      {/* COCINAS (fondo claro) → focus-ring */}
+      {/* ===========================
+         COCINAS (fondo claro)
+         - Imagen con aspect ratio estable (evita CLS).
+         - CTA con focus-ring (fondo claro).
+         =========================== */}
       <section id="cocinas" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2">
@@ -62,6 +72,7 @@ export default function Page() {
               </a>
             </div>
 
+            {/* Imagen responsive con relación 4/3 */}
             <div className="relative rounded-xl w-full overflow-hidden">
               <div className="relative aspect-[4/3]">
                 <Image
@@ -77,7 +88,9 @@ export default function Page() {
         </div>
       </section>
 
-      {/* BAÑOS (fondo claro) → focus-ring */}
+      {/* ===========================
+         BAÑOS (fondo claro)
+         =========================== */}
       <section id="banos" className="bg-fog py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
@@ -111,7 +124,9 @@ export default function Page() {
         </div>
       </section>
 
-      {/* SERVICIOS — solo informativo (sin cambios) */}
+      {/* ===========================
+         SERVICIOS (informativo)
+         =========================== */}
       <section id="servicios" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Servicios principales</h2>
@@ -134,9 +149,16 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ===========================
+         GALERÍA con next/image + lightbox
+         - Thumbnails lazy por defecto.
+         - Botón con focus-ring.
+         =========================== */}
       <Gallery />
 
-      {/* PROCESO — informativo */}
+      {/* ===========================
+         PROCESO (informativo)
+         =========================== */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Cómo trabajamos</h2>
@@ -159,7 +181,9 @@ export default function Page() {
         </div>
       </section>
 
-      {/* OPINIONES — informativo */}
+      {/* ===========================
+         OPINIONES (informativo)
+         =========================== */}
       <section className="bg-fog py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">Opiniones</h2>
@@ -179,7 +203,9 @@ export default function Page() {
         </div>
       </section>
 
-      {/* DIFERENCIALES — informativo */}
+      {/* ===========================
+         DIFERENCIALES (informativo)
+         =========================== */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">¿Por qué CUIBA?</h2>
@@ -196,11 +222,18 @@ export default function Page() {
         </div>
       </section>
 
-      {/* CTA FINAL (fondo oscuro) → focus-ring-dark para enlaces, focus-ring para botones dentro del form (fondo blanco) */}
+      {/* ===========================
+         CTA + FORM (fondo oscuro)
+         - Link WhatsApp con focus-ring-dark.
+         - Form en tarjeta blanca (focus-ring en botones).
+         =========================== */}
       <section id="cta" className="relative overflow-hidden bg-gradient-to-br from-sea to-coal py-16 text-white">
         <div
           className="absolute inset-0 mix-blend-overlay"
-          style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(255,255,255,.1), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,255,255,.1), transparent 40%)' }}
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(255,255,255,.1), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,255,255,.1), transparent 40%)',
+          }}
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-10 lg:grid-cols-2">
@@ -226,9 +259,12 @@ export default function Page() {
   );
 }
 
-/* =======================
-   GALERÍA con next/image
-   ======================= */
+/* =======================================================================
+   GALERÍA:
+   - Grid de miniaturas con next/image (lazy por defecto).
+   - Lightbox simple (click para ampliar; click fuera para cerrar).
+   - Accesibilidad: aria-label en el botón; foco visible con .focus-ring.
+   ======================================================================= */
 function Gallery() {
   const items = [
     ['/images/galeria-01.jpg', 'Cocina moderna 10 m² – Girona'],
@@ -275,7 +311,7 @@ function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox (usa object-contain para ver la imagen completa) */}
       {full && (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4"
@@ -292,58 +328,186 @@ function Gallery() {
   );
 }
 
-/* =======================
-   FORMULARIO — añadimos focus-ring a botones dentro del card blanco
-   ======================= */
+/* =======================================================================
+   FORMULARIO de leads:
+   - Validación cliente con Zod (mismas reglas que servidor).
+   - Errores por campo (mensaje debajo + borde rojo).
+   - Honeypot (campo oculto "website"): si se rellena, el servidor ignora el lead.
+   - ARIA live para mensajes globales; atributos aria-invalid/aria-describedby.
+   ======================================================================= */
 function LeadForm() {
+  // Estado global de envío
   const [ok, setOk] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // Errores por campo { nombre?: '...', email?: '...', ... }
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Limpia el error de un campo al escribir
+  function clearFieldError(name: string) {
+    if (errors[name]) {
+      setErrors((e) => {
+        const { [name]: _, ...rest } = e;
+        return rest;
+      });
+    }
+  }
+
+  // Valida en cliente con Zod (safeParse no lanza excepciones)
+  function validateClient(form: HTMLFormElement) {
+    const data = Object.fromEntries(new FormData(form).entries());
+    const parsed = LeadSchema.safeParse(data);
+    if (parsed.success) return { ok: true as const, data: parsed.data };
+    return { ok: false as const, errors: zodErrorToFieldMap(parsed.error) };
+  }
+
+  // Submit handler
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setOk(null);
+    setErrors({});
+
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+
+    // 1) Validación cliente
+    const v = validateClient(form);
+    if (!v.ok) {
+      setErrors(v.errors);
+      setLoading(false);
+      return;
+    }
+
+    // 2) POST al API (valida de nuevo en servidor)
     const res = await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(v.data),
     });
-    setOk(res.ok);
+
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      if (json?.errors) setErrors(json.errors as Record<string, string>);
+      setOk(false);
+      setLoading(false);
+      return;
+    }
+
+    // 3) OK → reset y mensaje
+    form.reset();
+    setOk(true);
     setLoading(false);
-    if (res.ok) form.reset();
+  }
+
+  // Clases para inputs con/sin error
+  function inputClass(name: string) {
+    const base = 'mt-1 w-full rounded-md border px-3 py-2';
+    return errors[name]
+      ? `${base} border-red-500 ring-1 ring-red-500`
+      : `${base} border-slate-300`;
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl bg-white p-6 text-slate-800 shadow-xl">
+    <form onSubmit={onSubmit} noValidate className="rounded-2xl bg-white p-6 text-slate-800 shadow-xl">
       <div className="grid gap-4 sm:grid-cols-2">
+        {/* Nombre */}
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium">Nombre</label>
-          <input required name="nombre" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Tu nombre" />
+          <label htmlFor="nombre" className="block text-sm font-medium">Nombre</label>
+          <input
+            id="nombre"
+            name="nombre"
+            autoComplete="name"
+            required
+            className={inputClass('nombre')}
+            placeholder="Tu nombre"
+            aria-invalid={!!errors.nombre}
+            aria-describedby={errors.nombre ? 'err-nombre' : undefined}
+            onInput={() => clearFieldError('nombre')}
+          />
+          {errors.nombre && <p id="err-nombre" className="mt-1 text-sm text-red-600">{errors.nombre}</p>}
         </div>
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input required type="email" name="email" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="tucorreo@ejemplo.com" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Teléfono</label>
-          <input required name="telefono" autoComplete="tel" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="611 637 679" />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-medium">Localidad</label>
-          <input required name="localidad" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Girona, Blanes, Figueres..." />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-medium">Mensaje</label>
-          <textarea name="mensaje" rows={3} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Cuéntanos tu reforma (m², estilo, plazo)" />
-        </div>
-        {/* Honeypot anti-spam */}
-        <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            autoComplete="email"
+            required
+            className={inputClass('email')}
+            placeholder="tucorreo@ejemplo.com"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'err-email' : undefined}
+            onInput={() => clearFieldError('email')}
+          />
+          {errors.email && <p id="err-email" className="mt-1 text-sm text-red-600">{errors.email}</p>}
+        </div>
+
+        {/* Teléfono */}
+        <div>
+          <label htmlFor="telefono" className="block text-sm font-medium">Teléfono</label>
+          <input
+            id="telefono"
+            name="telefono"
+            autoComplete="tel"
+            inputMode="tel"
+            required
+            className={inputClass('telefono')}
+            placeholder="611 637 679"
+            aria-invalid={!!errors.telefono}
+            aria-describedby={errors.telefono ? 'err-telefono' : undefined}
+            onInput={() => clearFieldError('telefono')}
+          />
+          {errors.telefono && <p id="err-telefono" className="mt-1 text-sm text-red-600">{errors.telefono}</p>}
+        </div>
+
+        {/* Localidad */}
+        <div className="sm:col-span-2">
+          <label htmlFor="localidad" className="block text-sm font-medium">Localidad</label>
+          <input
+            id="localidad"
+            name="localidad"
+            required
+            className={inputClass('localidad')}
+            placeholder="Girona, Blanes, Figueres..."
+            aria-invalid={!!errors.localidad}
+            aria-describedby={errors.localidad ? 'err-localidad' : undefined}
+            onInput={() => clearFieldError('localidad')}
+          />
+          {errors.localidad && <p id="err-localidad" className="mt-1 text-sm text-red-600">{errors.localidad}</p>}
+        </div>
+
+        {/* Mensaje */}
+        <div className="sm:col-span-2">
+          <label htmlFor="mensaje" className="block text-sm font-medium">Mensaje</label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            rows={3}
+            className={inputClass('mensaje')}
+            placeholder="Cuéntanos tu reforma (m², estilo, plazo)"
+            aria-invalid={!!errors.mensaje}
+            aria-describedby={errors.mensaje ? 'err-mensaje' : undefined}
+            onInput={() => clearFieldError('mensaje')}
+          />
+          {errors.mensaje && <p id="err-mensaje" className="mt-1 text-sm text-red-600">{errors.mensaje}</p>}
+        </div>
+
+        {/* Honeypot (oculto). Si un bot lo rellena, el servidor ignora el lead. */}
+        <div aria-hidden="true" className="hidden">
+          <label htmlFor="website">No rellenar</label>
+          <input id="website" name="website" tabIndex={-1} autoComplete="off" />
+        </div>
+
+        {/* Consentimiento RGPD */}
         <label className="sm:col-span-2 flex items-start gap-2 text-sm text-slate-600">
           <input type="checkbox" required className="mt-1" />
           Acepto la política de privacidad y el tratamiento de datos para responder a mi solicitud.
         </label>
+
+        {/* Acciones */}
         <div className="sm:col-span-2 flex gap-3">
           <button
             type="submit"
@@ -352,11 +516,12 @@ function LeadForm() {
           >
             {loading ? 'Enviando…' : 'Enviar solicitud'}
           </button>
+
           <button
             type="button"
             onClick={() => {
               const form = document.querySelector('#cta form') as HTMLFormElement;
-              const data = Object.fromEntries(new FormData(form).entries()) as any;
+              const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
               const text = encodeURIComponent(
                 `Hola CUIBA, soy ${data.nombre || ''}. Localidad: ${data.localidad || ''}. Tel: ${data.telefono || ''}. Quiero un render 3D y presupuesto. Detalles: ${data.mensaje || ''}`
               );
@@ -367,8 +532,14 @@ function LeadForm() {
             Enviar por WhatsApp
           </button>
         </div>
-        {ok === true && <p className="sm:col-span-2 text-sm text-green-700">¡Gracias! Te contactaremos en breve.</p>}
-        {ok === false && <p className="sm:col-span-2 text-sm text-red-700">Ha ocurrido un error. Prueba por WhatsApp.</p>}
+
+        {/* Mensajes globales (aria-live para lectores de pantalla) */}
+        <div className="sm:col-span-2" aria-live="polite">
+          {ok === true && <p className="text-sm text-green-700">¡Gracias! Te contactaremos en breve.</p>}
+          {ok === false && Object.keys(errors).length === 0 && (
+            <p className="text-sm text-red-700">Ha ocurrido un error. Prueba por WhatsApp.</p>
+          )}
+        </div>
       </div>
     </form>
   );
