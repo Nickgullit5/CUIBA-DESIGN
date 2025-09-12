@@ -21,7 +21,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 // URL base para metadatos absolutos (ajústala en Vercel → SITE_URL)
-const SITE_URL = process.env.SITE_URL || 'https://cuibagirona.com';
+const SITE_URL = process.env.SITE_URL || 'https://cuibadesign.com';
 
 // ————————————————————————————————————————————————————————————————
 // METADATA global
@@ -78,7 +78,7 @@ const jsonLd = {
   name: 'CUIBA Design',
   url: SITE_URL,
   image: `${SITE_URL}/images/logo-cuiba-light.png`,
-  email: 'ventas@cuibagirona.com',
+  email: 'info@cuibadesign.com',
   telephone: '+34611637679',
   address: {
     '@type': 'PostalAddress',
@@ -120,3 +120,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
