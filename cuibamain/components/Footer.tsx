@@ -18,7 +18,7 @@ export default function Footer() {
           <div>
             <h3 className="font-medium text-white">Contacto</h3>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>Dirección: Passatge Puigneulós 14, Baixos 2, 17006 Girona</li>
+              <li>Passatge Puigneulós 14, Baixos 2, 17006 Girona</li>
               <li>
                 Tel:{' '}
                 <a href="tel:+34611637679" className="hover:underline rounded-md focus-ring-dark">
@@ -57,7 +57,7 @@ export default function Footer() {
           <div>
             <h3 className="font-medium text-white">Legal</h3>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>Autónomo: Ronaldt Coca Patiño — NIF Y0943024S</li>
+              <li>Ronaldt Coca Patiño — Y0943024S</li>
               <li>
                 <a href="/legal/aviso-legal" className="hover:underline rounded-md focus-ring-dark">
                   Aviso legal
@@ -84,3 +84,4 @@ export default function Footer() {
     </footer>
   );
 }
+
